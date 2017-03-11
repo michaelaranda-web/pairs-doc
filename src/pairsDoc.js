@@ -15,7 +15,7 @@ function createNewPairsDoc() {
 }
 
 function getNewSheetName() {
-  return getPairsFormattedDateString();
+  return "SD Pairs - " + getPairsFormattedDateString();
 }
 
 function insertTablesForWeek(startingRow, sheet) {
@@ -38,5 +38,5 @@ function getPairsFormattedDateString() {
   var date = new Date();
   var options = { month: "short", day: "2-digit", year: "numeric" }
   
-  return "SD Pairs - " + date.toLocaleDateString("en", options);
+  return date.toLocaleDateString("en", options);
 }
