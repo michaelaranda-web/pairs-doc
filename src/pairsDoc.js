@@ -10,7 +10,6 @@ function createNewPairsDoc() {
   
   //Insert Mon - Fri pairs tables
   var startingRowForTables = newSheet.getLastRow() + 2;
-  
   insertTablesForWeek(startingRowForTables, newSheet);
 }
 
@@ -20,20 +19,27 @@ function getNewSheetName() {
 
 function insertTablesForWeek(startingRow, sheet) {
   var currentRowToWrite = startingRow;
-  var tableHeaderSecondCellValues = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-  const NUM_ROWS_PER_TABLE = 5;
+  var tableHeaders = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const NUM_ROWS_PER_TABLE = 8;
+  const NUM_COLS_PER_TABLE = 6;
   
-  for(var i = 0; i < tableHeaderSecondCellValues.length; i++) {
+  for(var i = 0; i < tableHeaders.length; i++) {
     
-    //TODO: Pass currentRowToWrite by reference into a table header function
-    var closestMondayDate = getClosestMondayDate();
-    sheet.getRange(currentRowToWrite,1).setValue(addDays(closestMondayDate, i));
-    sheet.getRange(currentRowToWrite++,2).setValue(tableHeaderSecondCellValues[i]);
+    // Insert table header
+    sheet.getRange(currentRowToWrite,1,1,NUM_COLS_PER_TABLE).setBackground("red");
     
+    sheet.getRange(currentRowToWrite,1).setValue(addDays(getClosestMondayDate(), i));
+    sheet.getRange(currentRowToWrite,2).setValue(tableHeaders[i]);
+    
+    currentRowToWrite++;
+    
+    //Insert table rows
     for(var j = 0; j < NUM_ROWS_PER_TABLE; j++) {
       sheet.getRange(currentRowToWrite++,1).setValue("TABLE ROW");
     }
     
-    sheet.getRange(currentRowToWrite++,1).setValue("BLANK ROW");
+    sheet.getRange(currentRowToWrite,1).setValue("BLANK ROW");
+    
+    currentRowToWrite++;
   }
 }
