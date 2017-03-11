@@ -19,7 +19,17 @@ function getNewSheetName() {
 }
 
 function insertTablesForWeek(startingRow, sheet) {
-  sheet.getRange(startingRow,1).setValue("TABLE STARTS HERE");
+  var currentRowToWrite = startingRow;
+  
+  for(var i = 1; i < 6; i++) {
+    sheet.getRange(currentRowToWrite++,1).setValue("TABLE HEADER");
+    
+    for(var j = 0; j < 4; j++) {
+      sheet.getRange(currentRowToWrite++,1).setValue("TABLE ROW");
+    }
+    
+    sheet.getRange(currentRowToWrite++,1).setValue("BLANK ROW");
+  }
 }
 
 // HELPERS
