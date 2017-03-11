@@ -15,28 +15,25 @@ function createNewPairsDoc() {
 }
 
 function getNewSheetName() {
-  return "SD Pairs - " + getPairsFormattedDateString();
+  return "SD Pairs - " + getFormattedDateString();
 }
 
 function insertTablesForWeek(startingRow, sheet) {
   var currentRowToWrite = startingRow;
+  var tableHeaderSecondCellValues = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const NUM_ROWS_PER_TABLE = 5;
   
-  for(var i = 1; i < 6; i++) {
-    sheet.getRange(currentRowToWrite++,1).setValue("TABLE HEADER");
+  for(var i = 0; i < tableHeaderSecondCellValues.length; i++) {
     
-    for(var j = 0; j < 4; j++) {
+    //TODO: Pass currentRowToWrite by reference into a table header function
+    var todayDate = new Date();
+    sheet.getRange(currentRowToWrite,1).setValue(addDays(todayDate, i));
+    sheet.getRange(currentRowToWrite++,2).setValue(tableHeaderSecondCellValues[i]);
+    
+    for(var j = 0; j < NUM_ROWS_PER_TABLE; j++) {
       sheet.getRange(currentRowToWrite++,1).setValue("TABLE ROW");
     }
     
     sheet.getRange(currentRowToWrite++,1).setValue("BLANK ROW");
   }
-}
-
-// HELPERS
-
-function getPairsFormattedDateString() {
-  var date = new Date();
-  var options = { month: "short", day: "2-digit", year: "numeric" }
-  
-  return date.toLocaleDateString("en", options);
 }
