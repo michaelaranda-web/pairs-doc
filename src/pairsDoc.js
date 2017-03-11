@@ -26,8 +26,8 @@ function insertTablesForWeek(startingRow, sheet) {
   for(var i = 0; i < tableHeaderSecondCellValues.length; i++) {
     
     //TODO: Pass currentRowToWrite by reference into a table header function
-    var todayDate = new Date();
-    sheet.getRange(currentRowToWrite,1).setValue(addDays(todayDate, i));
+    var closestMondayDate = getClosestMondayDate();
+    sheet.getRange(currentRowToWrite,1).setValue(addDays(closestMondayDate, i));
     sheet.getRange(currentRowToWrite++,2).setValue(tableHeaderSecondCellValues[i]);
     
     for(var j = 0; j < NUM_ROWS_PER_TABLE; j++) {
