@@ -1,0 +1,42 @@
+Create button
+Click on button creates new tab
+New tab is named after starting date
+  - e.g. Pairs - Mar 13 2017
+  - ^ March 13 is the date of that week's Monday
+
+New tab has:
+  - Header
+    	* Top row with column names	
+          - Freeze row at top	
+    	* Teams
+    	* Czar rotation
+          - Czar crown assignment managed by sheet?
+            - Keeps track of developers on each team
+            - Keeps track 
+    	* Link to Czar duties
+    	* FTO's
+    * Create new spreadsheet button
+      - Button image needs to be re-inserted in specific location
+      - Script needs to be re-assigned to button image
+
+  - Five tables for Mon - Fri
+    * Three cell background colors randomly-generated
+      - Use some sort of color-picker/UI service?
+    * Font-color
+      - Black?
+      - White?
+      - Depends on background color?
+
+    * Each table:
+      - Day
+      - Date
+      - Czars
+        * Read from Czar rotation list? 
+
+
+Keeps track of pairs
+  How often people have been paired with each other in the last X number of weeks
+  Create new pair recommendations based off of ^^^
+
+"Try another color scheme" button
+  - Swap out for a new, randomly-generated color scheme
