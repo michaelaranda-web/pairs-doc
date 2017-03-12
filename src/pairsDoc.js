@@ -19,6 +19,7 @@ function createNewPairsDoc() {
   var originalSheet = ss.getSheets()[0];
   
   var newSheet = ss.insertSheet(getNewSheetName());
+  setColumnWidths(newSheet);
   
   //Insert header template with values from last week
   var headerRange = originalSheet.getRange(1,1,6,6);
@@ -27,6 +28,8 @@ function createNewPairsDoc() {
   //Insert Mon - Fri pairs tables
   var startingRowForTables = newSheet.getLastRow() + 2;
   insertTablesForWeek(startingRowForTables, newSheet);
+  
+  //TODO: Move color scheme function call here
 }
 
 function insertTablesForWeek(startingRow, sheet) {
@@ -73,6 +76,15 @@ function setNewRandomColorScheme(sheet, numTables) {
     
     secondHalfTableBody.setBackground(matchingColors.third_color);
   }
+}
+
+function setColumnWidths(sheet) {
+  sheet.setColumnWidth("1", 190);
+  sheet.setColumnWidth("2", 150);
+  sheet.setColumnWidth("3", 150);
+  sheet.setColumnWidth("4", 200);
+  sheet.setColumnWidth("5", 205);
+  sheet.setColumnWidth("6", 138);
 }
 
 function getNewSheetName() {
