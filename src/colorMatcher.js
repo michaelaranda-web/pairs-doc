@@ -1,4 +1,16 @@
 //TODO: Refactor - param for number of colors to return
+function getFiveColors() {
+  var randomPalette = getRandomColorPalette();
+  
+  return { 
+    first_color: randomPalette[0],
+    second_color: randomPalette[1],
+    third_color: randomPalette[2],
+    fourth_color: randomPalette[3],
+    fifth_color: randomPalette[4]
+  };
+}
+
 function getThreeColors() {
   var randomPalette = getRandomColorPalette();
 
@@ -28,6 +40,7 @@ function getColorPalettes() {
     ["#04BFBF", "#CAFCD8", "#F7E967", "#A9CF54", "#588F27"],
     ["#D8CAA8", "#5C832F", "#284907", "#382513", "#363942"],
     ["#000000", "#263248", "#7E8AA2", "#FFFFFF", "#FF9800"],
+    ["#BA2F1D", "#FFF8A4", "#F5E67F", "#264A59", "#1E2C30"],
     ["#2F3837", "#C5C7B6", "#FFF8D3", "#4C493E", "#222028"],
     ["#E0FFB3", "#61C791", "#31797D", "#2A2F36", "#F23C55"]
   ];  

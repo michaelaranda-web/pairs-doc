@@ -62,19 +62,37 @@ function insertTablesForWeek(startingRow, sheet) {
 function setNewRandomColorScheme(sheet, numTables) {
   //TODO: Change to find the correct spreadsheet, instead of assuming active is correct
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var matchingColors = getThreeColors();
+  var matchingColors = getFiveColors();
   
   for(var i = 0; i < numTables; i++) {
     ss.getRangeByName("PairsDocTableHeader" + i).setBackground(matchingColors.first_color);
     
     var tableBodyRange = ss.getRangeByName("PairsDocTableBody" + i);
-    tableBodyRange.setBackground(matchingColors.second_color);
-    var secondHalfTableBody = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
+    
+    var firstTrackSection = sheet.getRange(tableBodyRange.getRow(), 
                                             1,
                                             tableBodyRange.getHeight()/2,
-                                            tableBodyRange.getWidth());
+                                            1); 
     
-    secondHalfTableBody.setBackground(matchingColors.third_color);
+    var secondTrackSection = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
+                                            1,
+                                            tableBodyRange.getHeight()/2,
+                                            1);
+    
+    var firstHalfTableBody = sheet.getRange(tableBodyRange.getRow(), 
+                                            2,
+                                            tableBodyRange.getHeight()/2,
+                                            tableBodyRange.getWidth()-1); 
+    
+    var secondHalfTableBody = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
+                                            2,
+                                            tableBodyRange.getHeight()/2,
+                                            tableBodyRange.getWidth()-1);
+    
+    firstTrackSection.setBackground(matchingColors.second_color);
+    secondTrackSection.setBackground(matchingColors.third_color);
+    firstHalfTableBody.setBackground(matchingColors.fourth_color);
+    secondHalfTableBody.setBackground(matchingColors.fifth_color);
   }
 }
 
