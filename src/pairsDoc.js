@@ -1,3 +1,4 @@
+//TODO: Create configurations function
 function createNewPairsDoc() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var originalSheet = ss.getSheets()[0];
@@ -13,20 +14,18 @@ function createNewPairsDoc() {
   insertTablesForWeek(startingRowForTables, newSheet);
 }
 
-function getNewSheetName() {
-  return "SD Pairs - " + getFormattedDateString();
-}
-
 function insertTablesForWeek(startingRow, sheet) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
   var currentRowToWrite = startingRow;
   var tableHeaders = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const NUM_TEAMS = 2;
   const NUM_ROWS_PER_TABLE = 8;
   const NUM_COLS_PER_TABLE = 6;
   
   for(var i = 0; i < tableHeaders.length; i++) {
     
     // Insert table header
-    sheet.getRange(currentRowToWrite,1,1,NUM_COLS_PER_TABLE).setBackground("red");
+    ss.setNamedRange("PairsDocTableHeader" + i, sheet.getRange(currentRowToWrite,1,1,NUM_COLS_PER_TABLE));
     
     sheet.getRange(currentRowToWrite,1).setValue(addDays(getClosestMondayDate(), i));
     sheet.getRange(currentRowToWrite,2).setValue(tableHeaders[i]);
@@ -34,12 +33,35 @@ function insertTablesForWeek(startingRow, sheet) {
     currentRowToWrite++;
     
     //Insert table rows
-    for(var j = 0; j < NUM_ROWS_PER_TABLE; j++) {
-      sheet.getRange(currentRowToWrite++,1).setValue("TABLE ROW");
-    }
+    ss.setNamedRange("PairsDocTableBody" + i, sheet.getRange(currentRowToWrite,1,NUM_ROWS_PER_TABLE,NUM_COLS_PER_TABLE));
     
-    sheet.getRange(currentRowToWrite,1).setValue("BLANK ROW");
-    
-    currentRowToWrite++;
+    currentRowToWrite = currentRowToWrite + NUM_ROWS_PER_TABLE + 1;
   }
+  
+  setNewRandomColorScheme(sheet, tableHeaders.length);
+}
+
+function setNewRandomColorScheme(sheet, numTables) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  for(var i = 0; i < numTables; i++) {
+    ss.getRangeByName("PairsDocTableHeader" + i).setBackground("orange");
+    
+    var tableBodyRange = ss.getRangeByName("PairsDocTableBody" + i);
+    tableBodyRange.setBackground("red");
+    var secondHalfTableBody = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
+                                            1,
+                                            tableBodyRange.getHeight()/2,
+                                            tableBodyRange.getWidth());
+    
+    secondHalfTableBody.setBackground("yellow");
+  }
+}
+
+function getNewSheetName() {
+  return "SD Pairs - " + getFormattedDateString();
+}
+
+function _getMiddleRow(firstRow, lastRow) {
+  return Math.ceil((firstRow + lastRow)/2);
 }
