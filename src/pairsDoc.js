@@ -106,8 +106,7 @@ function setColumnWidths(sheet) {
 }
 
 function getNewSheetName() {
-  //TODO: Should be named after Monday, not current date
-  return "SD Pairs - " + getFormattedDateString();
+  return getFormattedDateString(getClosestMondayDate());
 }
 
 function _getMiddleRow(firstRow, lastRow) {

@@ -26,8 +26,12 @@ function addDays(startDate,numberOfDays) {
   return returnDate;
 }
 
-function getFormattedDateString() {
+function getFormattedDateString(dateToFormat) {
   var date = new Date();
+  
+  if(dateToFormat) {
+    date = dateToFormat;
+  }
   var options = { month: "short", day: "2-digit", year: "numeric" }
   
   return date.toLocaleDateString("en", options);
