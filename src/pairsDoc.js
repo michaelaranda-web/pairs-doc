@@ -1,3 +1,18 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  
+  ui.createMenu('Custom')
+      .addItem('Swap color palette', 'onSwapColorPalette')
+      .addToUi();
+}
+
+function onSwapColorPalette() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
+  
+  setNewRandomColorScheme(sheet, 5);
+}
+
 //TODO: Create configurations function
 function createNewPairsDoc() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -42,6 +57,7 @@ function insertTablesForWeek(startingRow, sheet) {
 }
 
 function setNewRandomColorScheme(sheet, numTables) {
+  //TODO: Change to find the correct spreadsheet, instead of assuming active is correct
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var matchingColors = getThreeColors();
   
@@ -60,6 +76,7 @@ function setNewRandomColorScheme(sheet, numTables) {
 }
 
 function getNewSheetName() {
+  //TODO: Should be named after Monday, not current date
   return "SD Pairs - " + getFormattedDateString();
 }
 
