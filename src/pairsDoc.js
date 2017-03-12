@@ -1,18 +1,3 @@
-function onOpen() {
-  var ui = SpreadsheetApp.getUi();
-  
-  ui.createMenu('Custom')
-      .addItem('Swap color palette', 'onSwapColorPalette')
-      .addToUi();
-}
-
-function onSwapColorPalette() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(getNewSheetName());
-  
-  setNewRandomColorScheme(sheet, 5);
-}
-
 //TODO: Create configurations function
 function createNewPairsDoc() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -30,6 +15,21 @@ function createNewPairsDoc() {
   insertTablesForWeek(startingRowForTables, newSheet);
   
   //TODO: Move color scheme function call here
+}
+
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  
+  ui.createMenu('Custom')
+      .addItem('Swap color palette', 'onSwapColorPalette')
+      .addToUi();
+}
+
+function onSwapColorPalette() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
+  
+  setNewRandomColorScheme(sheet, 5);
 }
 
 function insertTablesForWeek(startingRow, sheet) {
