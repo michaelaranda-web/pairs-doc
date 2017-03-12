@@ -43,18 +43,19 @@ function insertTablesForWeek(startingRow, sheet) {
 
 function setNewRandomColorScheme(sheet, numTables) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var matchingColors = getThreeColors();
   
   for(var i = 0; i < numTables; i++) {
-    ss.getRangeByName("PairsDocTableHeader" + i).setBackground("orange");
+    ss.getRangeByName("PairsDocTableHeader" + i).setBackground(matchingColors.first_color);
     
     var tableBodyRange = ss.getRangeByName("PairsDocTableBody" + i);
-    tableBodyRange.setBackground("red");
+    tableBodyRange.setBackground(matchingColors.second_color);
     var secondHalfTableBody = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
                                             1,
                                             tableBodyRange.getHeight()/2,
                                             tableBodyRange.getWidth());
     
-    secondHalfTableBody.setBackground("yellow");
+    secondHalfTableBody.setBackground(matchingColors.third_color);
   }
 }
 
