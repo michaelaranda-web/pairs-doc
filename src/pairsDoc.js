@@ -21,6 +21,7 @@ function onOpen() {
   var ui = SpreadsheetApp.getUi();
   
   ui.createMenu('Custom')
+      .addItem('Create new pairs doc', 'createNewPairsDoc')
       .addItem('Swap color palette', 'onSwapColorPalette')
       .addToUi();
 }
