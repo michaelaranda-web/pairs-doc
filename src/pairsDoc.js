@@ -21,8 +21,15 @@ function onOpen() {
   var ui = SpreadsheetApp.getUi();
   
   ui.createMenu('Custom')
-      .addItem('Create new pairs doc', 'createNewPairsDoc')
-      .addItem('Swap color palette', 'onSwapColorPalette')
+      .addItem('Create New Pairs Doc', 'createNewPairsDoc')
+      .addItem('Swap Color Palette', 'onSwapColorPalette')
+      .addSeparator()
+      .addSubMenu(SpreadsheetApp.getUi().createMenu('Set Font Color to White...')
+           .addItem('Table Header', 'setTableHeaderFontToWhite')
+           .addItem('Tracks - Top', 'setTracksTopFontToWhite')
+           .addItem('Tracks - Bottom', 'setTracksBottomFontToWhite')
+           .addItem('Table Body - Top', 'setTableBodyTopFontToWhite')
+           .addItem('Table Body - Bottom', 'setTableBodyBottomFontToWhite'))
       .addToUi();
 }
 
@@ -51,65 +58,36 @@ function insertTablesForWeek(startingRow, sheet) {
     
     currentRowToWrite++;
     
-    //Insert table rows
-    ss.setNamedRange("PairsDocTableBody" + i, sheet.getRange(currentRowToWrite,1,NUM_ROWS_PER_TABLE,NUM_COLS_PER_TABLE));
+    //Insert table sections
+    var tableBodyRange = sheet.getRange(currentRowToWrite,1,NUM_ROWS_PER_TABLE,NUM_COLS_PER_TABLE);
+    
+    var topTrackSection = sheet.getRange(tableBodyRange.getRow(), 
+                                            1,
+                                            tableBodyRange.getHeight()/2,
+                                            1);
+    
+    var bottomTrackSection = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
+                                            1,
+                                            tableBodyRange.getHeight()/2,
+                                            1);
+    
+    var tableBodyTopSection = sheet.getRange(tableBodyRange.getRow(), 
+                                            2,
+                                            tableBodyRange.getHeight()/2,
+                                            tableBodyRange.getWidth()-1);
+    
+    var tableBodyBottomSection = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
+                                            2,
+                                            tableBodyRange.getHeight()/2,
+                                            tableBodyRange.getWidth()-1);
+    
+    ss.setNamedRange("PairsDocTracksTop" + i, topTrackSection);
+    ss.setNamedRange("PairsDocTracksBottom" + i, bottomTrackSection);
+    ss.setNamedRange("PairsDocTableBodyTop" + i, tableBodyTopSection);
+    ss.setNamedRange("PairsDocTableBodyBottom" + i, tableBodyBottomSection);
     
     currentRowToWrite = currentRowToWrite + NUM_ROWS_PER_TABLE + 1;
   }
   
   setNewRandomColorScheme(sheet, tableHeaders.length);
-}
-
-function setNewRandomColorScheme(sheet, numTables) {
-  //TODO: Change to find the correct spreadsheet, instead of assuming active is correct
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var matchingColors = getFiveColors();
-  
-  for(var i = 0; i < numTables; i++) {
-    ss.getRangeByName("PairsDocTableHeader" + i).setBackground(matchingColors.first_color);
-    
-    var tableBodyRange = ss.getRangeByName("PairsDocTableBody" + i);
-    
-    var firstTrackSection = sheet.getRange(tableBodyRange.getRow(), 
-                                            1,
-                                            tableBodyRange.getHeight()/2,
-                                            1); 
-    
-    var secondTrackSection = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
-                                            1,
-                                            tableBodyRange.getHeight()/2,
-                                            1);
-    
-    var firstHalfTableBody = sheet.getRange(tableBodyRange.getRow(), 
-                                            2,
-                                            tableBodyRange.getHeight()/2,
-                                            tableBodyRange.getWidth()-1); 
-    
-    var secondHalfTableBody = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
-                                            2,
-                                            tableBodyRange.getHeight()/2,
-                                            tableBodyRange.getWidth()-1);
-    
-    firstTrackSection.setBackground(matchingColors.second_color);
-    secondTrackSection.setBackground(matchingColors.third_color);
-    firstHalfTableBody.setBackground(matchingColors.fourth_color);
-    secondHalfTableBody.setBackground(matchingColors.fifth_color);
-  }
-}
-
-function setColumnWidths(sheet) {
-  sheet.setColumnWidth("1", 190);
-  sheet.setColumnWidth("2", 150);
-  sheet.setColumnWidth("3", 150);
-  sheet.setColumnWidth("4", 200);
-  sheet.setColumnWidth("5", 205);
-  sheet.setColumnWidth("6", 138);
-}
-
-function getNewSheetName() {
-  return getFormattedDateString(getClosestMondayDate());
-}
-
-function _getMiddleRow(firstRow, lastRow) {
-  return Math.ceil((firstRow + lastRow)/2);
 }
