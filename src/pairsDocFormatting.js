@@ -1,14 +1,35 @@
 function setNewRandomColorScheme(sheet, numTables) {
-  //TODO: Change to find the correct spreadsheet, instead of assuming active is correct
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var matchingColors = getFiveColors();
   
   for(var i = 0; i < numTables; i++) {
-    ss.getRangeByName("PairsDocTableHeader" + i).setBackground(matchingColors.first_color);
-    ss.getRangeByName("PairsDocTracksTop" + i).setBackground(matchingColors.second_color);
-    ss.getRangeByName("PairsDocTracksBottom" + i).setBackground(matchingColors.third_color);
-    ss.getRangeByName("PairsDocTableBodyTop" + i).setBackground(matchingColors.fourth_color);
-    ss.getRangeByName("PairsDocTableBodyBottom" + i).setBackground(matchingColors.fifth_color);
+    var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
+    
+    var tracksTop = sheet.getRange(tableHeader.getRow()+1, 
+                                            1,
+                                            4,
+                                            1);
+    
+    var tracksBottom = sheet.getRange(tableHeader.getRow()+5, 
+                                      1,
+                                      4,
+                                      1);
+    
+    var tableBodyTop = sheet.getRange(tableHeader.getRow()+1, 
+                                            2,
+                                            4,
+                                            5);
+    
+    var tableBodyBottom = sheet.getRange(tableHeader.getRow()+5, 
+                                      2,
+                                      4,
+                                      5);
+    
+    tableHeader.setBackground(matchingColors.first_color);
+    tracksTop.setBackground(matchingColors.second_color);
+    tracksBottom.setBackground(matchingColors.third_color);
+    tableBodyTop.setBackground(matchingColors.fourth_color);
+    tableBodyBottom.setBackground(matchingColors.fifth_color);
   }
 }
 
@@ -26,7 +47,7 @@ function setColumnWidths(sheet) {
 }
 
 function setTableRowHeights(ss, sheet) {
-  for(var i = _getFTOSectionRowNumber(); i < ss.getRangeByName("PairsDocTableBodyBottom4").getLastRow(); i++) {
+  for(var i = _getFTOSectionRowNumber(); i < 57; i++) {
     sheet.setRowHeight(i, 25);
   }
 }
