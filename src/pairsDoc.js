@@ -57,37 +57,7 @@ function insertTablesForWeek(startingRow, sheet) {
     sheet.getRange(currentRowToWrite,1).setValue(addDays(getClosestMondayDate(), i));
     sheet.getRange(currentRowToWrite,2).setValue(tableHeaders[i]);
     
-    currentRowToWrite++;
-    
-    //Insert table sections
-    var tableBodyRange = sheet.getRange(currentRowToWrite,1,NUM_ROWS_PER_TABLE,NUM_COLS_PER_TABLE);
-    
-    var topTrackSection = sheet.getRange(tableBodyRange.getRow(), 
-                                            1,
-                                            tableBodyRange.getHeight()/2,
-                                            1);
-    
-    var bottomTrackSection = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
-                                            1,
-                                            tableBodyRange.getHeight()/2,
-                                            1);
-    
-    var tableBodyTopSection = sheet.getRange(tableBodyRange.getRow(), 
-                                            2,
-                                            tableBodyRange.getHeight()/2,
-                                            tableBodyRange.getWidth()-1);
-    
-    var tableBodyBottomSection = sheet.getRange(_getMiddleRow(tableBodyRange.getRow(), tableBodyRange.getLastRow()), 
-                                            2,
-                                            tableBodyRange.getHeight()/2,
-                                            tableBodyRange.getWidth()-1);
-    
-    ss.setNamedRange("PairsDocTracksTop" + i, topTrackSection);
-    ss.setNamedRange("PairsDocTracksBottom" + i, bottomTrackSection);
-    ss.setNamedRange("PairsDocTableBodyTop" + i, tableBodyTopSection);
-    ss.setNamedRange("PairsDocTableBodyBottom" + i, tableBodyBottomSection);
-    
-    currentRowToWrite = currentRowToWrite + NUM_ROWS_PER_TABLE + 1;
+    currentRowToWrite = currentRowToWrite + NUM_ROWS_PER_TABLE + 2;
   }
   
   setNewRandomColorScheme(sheet, tableHeaders.length);

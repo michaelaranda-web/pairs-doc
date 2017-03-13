@@ -62,36 +62,61 @@ function setTableHeaderFontToWhite() {
   }  
 }
 
+//Refactor fontToWhite functions into one function
 function setTracksTopFontToWhite() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
   
   for(var i = 0; i < _numTables(); i++) {
-    ss.getRangeByName("PairsDocTracksTop" + i).setFontColor("white");
+    var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
+    var tracksTop = sheet.getRange(tableHeader.getRow()+1, 
+                                            1,
+                                            4,
+                                            1);
+    tracksTop.setFontColor("white");
   }    
 }
 
 function setTracksBottomFontToWhite() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
   
   for(var i = 0; i < _numTables(); i++) {
-    ss.getRangeByName("PairsDocTracksBottom" + i).setFontColor("white");
-  }  
+    var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
+    var tracksBottom = sheet.getRange(tableHeader.getRow()+5, 
+                                      1,
+                                      4,
+                                      1);
+    tracksBottom.setFontColor("white");
+  }   
 }
 
 function setTableBodyTopFontToWhite() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
   
   for(var i = 0; i < _numTables(); i++) {
-    ss.getRangeByName("PairsDocTableBodyTop" + i).setFontColor("white");
-  }  
+    var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
+    var tableBodyTop = sheet.getRange(tableHeader.getRow()+1, 
+                                            2,
+                                            4,
+                                            5);
+    tableBodyTop.setFontColor("white");
+  }   
 }
 
 function setTableBodyBottomFontToWhite() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
   
   for(var i = 0; i < _numTables(); i++) {
-    ss.getRangeByName("PairsDocTableBodyBottom" + i).setFontColor("white");
-  }  
+    var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
+    var tableBodyBottom = sheet.getRange(tableHeader.getRow()+5, 
+                                      2,
+                                      4,
+                                      5);
+    tableBodyBottom.setFontColor("white");
+  } 
 }
 
 // PRIVATE
