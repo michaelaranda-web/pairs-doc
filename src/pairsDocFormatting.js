@@ -25,6 +25,12 @@ function setColumnWidths(sheet) {
   sheet.setColumnWidth("6", 138);
 }
 
+function setTableRowHeights(ss, sheet) {
+  for(var i = _getFTOSectionRowNumber(); i < ss.getRangeByName("PairsDocTableBodyBottom4").getLastRow(); i++) {
+    sheet.setRowHeight(i, 25);
+  }
+}
+
 // Font colors
 
 function setTableHeaderFontToWhite() {
@@ -71,6 +77,10 @@ function setTableBodyBottomFontToWhite() {
 
 function _getMiddleRow(firstRow, lastRow) {
   return Math.ceil((firstRow + lastRow)/2);
+}
+  
+function _getFTOSectionRowNumber() {
+  return 5;
 }
 
 function _numTables() {
