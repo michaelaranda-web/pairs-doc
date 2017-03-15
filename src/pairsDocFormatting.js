@@ -46,7 +46,7 @@ function setColumnWidths(sheet) {
   sheet.setColumnWidth("6", 138);
 }
 
-function setTableRowHeights(ss, sheet) {
+function setTableRowHeights(sheet) {
   for(var i = _getFTOSectionRowNumber(); i < 57; i++) {
     sheet.setRowHeight(i, 25);
   }
@@ -117,6 +117,10 @@ function setTableBodyBottomFontToWhite() {
                                       5);
     tableBodyBottom.setFontColor("white");
   } 
+}
+
+function freezeTopRow(sheet) {
+  sheet.setFrozenRows(1);
 }
 
 // PRIVATE

@@ -14,7 +14,9 @@ function createNewPairsDoc() {
   var startingRowForTables = newSheet.getLastRow() + 2;
   insertTablesForWeek(startingRowForTables, newSheet);
   
-  setTableRowHeights(ss, newSheet);
+  setTableRowHeights(newSheet);
+  
+  freezeTopRow(newSheet);
   //TODO: Move color scheme function call here
 }
 
