@@ -1,3 +1,4 @@
+//TODO: rename to setRandomColorScheme
 function setNewRandomColorScheme(sheet, numTables) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var matchingColors = getFiveColors();
@@ -5,25 +6,10 @@ function setNewRandomColorScheme(sheet, numTables) {
   for(var i = 0; i < numTables; i++) {
     var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
     
-    var tracksTop = sheet.getRange(tableHeader.getRow()+1, 
-                                            1,
-                                            4,
-                                            1);
-    
-    var tracksBottom = sheet.getRange(tableHeader.getRow()+5, 
-                                      1,
-                                      4,
-                                      1);
-    
-    var tableBodyTop = sheet.getRange(tableHeader.getRow()+1, 
-                                            2,
-                                            4,
-                                            5);
-    
-    var tableBodyBottom = sheet.getRange(tableHeader.getRow()+5, 
-                                      2,
-                                      4,
-                                      5);
+    var tracksTop = getTableRangeFor("tracksTop", sheet, tableHeader.getRow());
+    var tracksBottom = getTableRangeFor("tracksBottom", sheet, tableHeader.getRow());
+    var tableBodyTop = getTableRangeFor("tableBodyTop", sheet, tableHeader.getRow());
+    var tableBodyBottom = getTableRangeFor("tableBodyBottom", sheet, tableHeader.getRow());
     
     tableHeader.setBackground(matchingColors.first_color);
     tracksTop.setBackground(matchingColors.second_color);
@@ -46,10 +32,51 @@ function setColumnWidths(sheet) {
   sheet.setColumnWidth("6", 138);
 }
 
-function setTableRowHeights(sheet) {
+function setRowHeights(sheet) {
   for(var i = _getFTOSectionRowNumber(); i < 57; i++) {
     sheet.setRowHeight(i, 25);
   }
+}
+
+function getTableRangeFor(section, sheet, tableHeaderRowNum) {
+  if(section === "entireTable") {
+     return sheet.getRange(tableHeaderRowNum,
+                           1,
+                           pairsDocConfig().numRowsPerTeam * 2,
+                           pairsDocConfig().numColsPerTable);
+  }
+  else if(section === "entireTableBody") {
+     return sheet.getRange(tableHeaderRowNum+1,
+                           1,
+                           pairsDocConfig().numRowsPerTeam * 2,
+                           pairsDocConfig().numColsPerTable);
+  }
+  else if(section === "tracksTop") {
+     return sheet.getRange(tableHeaderRowNum+1,
+                           1,
+                           pairsDocConfig().numRowsPerTeam,
+                           1);
+  }
+  else if(section === "tracksBottom") {
+     return sheet.getRange(tableHeaderRowNum+5,
+                           1,
+                           pairsDocConfig().numRowsPerTeam,
+                           1);
+  }
+  else if(section === "tableBodyTop") {
+     return sheet.getRange(tableHeaderRowNum+1,
+                           2,
+                           pairsDocConfig().numRowsPerTeam,
+                           5);
+  }
+  else {
+     return sheet.getRange(tableHeaderRowNum+5,
+                           2,
+                           pairsDocConfig().numRowsPerTeam,
+                           5);
+  }
+  
+  //change above to 'else if', and put 'else return error' here?
 }
 
 // Font colors
@@ -66,8 +93,7 @@ function setTableHeaderFontToWhite() {
 function setTracksTopFontToWhite() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(getNewSheetName());
-  
-  for(var i = 0; i < _numTables(); i++) {
+    for(var i = 0; i < _numTables(); i++) {
     var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
     var tracksTop = sheet.getRange(tableHeader.getRow()+1, 
                                             1,
@@ -123,7 +149,19 @@ function freezeTopRow(sheet) {
   sheet.setFrozenRows(1);
 }
 
-// PRIVATE
+function setTableCellBorders(sheet) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(getNewSheetName());
+  
+  for(var i = 0; i < _numTables(); i++) {
+    var tableHeader = ss.getRangeByName("PairsDocTableHeader" + i);
+    var entireTable = getTableRangeFor("entireTableBody", sheet, tableHeader.getRow());
+    
+    entireTable.setBorder(true, true, true, true, true, true);
+  } 
+}
+
+// HELPERS
 
 function _getMiddleRow(firstRow, lastRow) {
   return Math.ceil((firstRow + lastRow)/2);
